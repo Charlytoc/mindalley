@@ -1,0 +1,15 @@
+
+.ChatInputContainer {
+  background-color: green;
+  display: flex;
+  justify-content: center;
+}
+
+.ChatInputContainer > textarea {
+  resize: none;
+  padding: 5px;
+  width: 500px ;
+  height: 40px ;
+  scrollbar-width: none;
+}
+
