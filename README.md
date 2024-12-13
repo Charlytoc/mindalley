@@ -1,50 +1,56 @@
-# React + TypeScript + Vite
+# Welcome to the Sentiment Analysis Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is an application that uses a pre-trained model to analyze the state of mental health of a person using a chat interface.
 
-Currently, two official plugins are available:
+## How to run the project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Prerequisites
 
-## Expanding the ESLint configuration
+- Python 3.11 (with pip)
+- Node (latest version)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Running the project
 
-- Configure the top-level `parserOptions` property like this:
+1. Init a Virtual environment
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+python -m venv venv
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Activate the Virtual environment
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```
+source venv/bin/activate
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+or
+
+```
+venv\Scripts\activate
+```
+
+> Depending on your operating system, you may need to use a different command to activate the virtual environment.
+
+3. Install Python dependencies
+
+```
+pip install -r requirements.txt
+```
+
+2. Install Node dependencies
+
+```
+npm install
+```
+
+3. Run the project
+
+```
+npm run dev
+```
+
+4. Run the Python server
+
+```
+python main.py
 ```

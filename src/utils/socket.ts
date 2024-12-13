@@ -1,3 +1,5 @@
 import { SocketManager } from "./socketManager";
 
-export const socket = new SocketManager("http://localhost:8000")
+
+
+export const socket = new SocketManager("http://localhost:8003")

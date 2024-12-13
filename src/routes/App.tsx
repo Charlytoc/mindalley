@@ -1,72 +1,85 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import { ChatInput } from '../components/ChatInput'
-import { Message } from '../components/ChatMessages'
-import { socket } from '../utils/socket'
-
-type Tmessage = {
-  type: "assistant" | "user",
-  text: string,
-  prediction: null | string
-}
-
+import { useEffect, useState } from "react";
+import "./App.css";
+import { ChatInput } from "../components/ChatInput";
+import { Message } from "../components/ChatMessages";
+import { socket } from "../utils/socket";
+import { Tmessage } from "../utils/types";
+import { ChatHeader } from "../components/ChatHeader";
 
 const defaultMessages: Tmessage[] = [
   {
     type: "assistant",
-    text: "Hola, como estas?",
-    prediction: null
-  }
-]
+    text: "Hola, ¿cómo te sientes hoy? 😊",
+    prediction: null,
+  },
+  {
+    type: "assistant",
+    text: "Puedes contarme cómo te sientes, y te ayudaré a sentirte mejor.",
+    prediction: null,
+  },
+];
 
 function App() {
-  const [messages, setMessages] = useState<Tmessage[]>(defaultMessages)
+  const [messages, setMessages] = useState<Tmessage[]>([]);
+
+  const loadDefaultMessages = () => {
+    defaultMessages.forEach((message, index) => {
+      setTimeout(() => {
+        setMessages((prev) => [...prev, message]);
+      }, index * 1000);
+    });
+  };
 
   useEffect(() => {
-    socket.on("prediction", (data) => {
-   
-      setMessages(prev => {
-        const lastMessage = prev[prev.length - 1]
-        lastMessage.prediction = data.prediction
-        prev[prev.length - 1] = lastMessage
-        return [...prev]
+    loadDefaultMessages();
 
-      })
-    })
+    socket.on("prediction", (data) => {
+      setMessages((prev) => {
+        const lastMessage = prev[prev.length - 1];
+        lastMessage.prediction = data.prediction;
+        prev[prev.length - 1] = lastMessage;
+        return [...prev];
+      });
+    });
 
     socket.on("advice", (data) => {
-      console.log(data.advice);
       addMessage({
         text: data.advice,
         type: "assistant",
-        prediction: null
-      })
-    })
+        prediction: null,
+      });
+    });
 
     return () => {
-      socket.off("prediction")
-      socket.off("advice")
-    }
-  }, [])
+      socket.off("prediction");
+      socket.off("advice");
+    };
+  }, []);
 
   const addMessage = (message: Tmessage) => {
-    setMessages(prev => [...prev, message])
+    setMessages((prev) => [...prev, message]);
 
-    if (message.type === "user"){
+    if (message.type === "user") {
       socket.emit("message", {
-        message
-      })
+        message,
+        previous_messages: messages,
+      });
     }
-  }
+  };
 
   return (
     <>
-      {messages.map((message) => {
-        return <Message {...message} />
-      })}
-      <ChatInput addMessage={addMessage} />
+      <ChatHeader />
+      <main id="app">
+        <div className="MessagesContainer">
+          {messages.map((message) => {
+            return <Message {...message} />;
+          })}
+        </div>
+        <ChatInput addMessage={addMessage} />
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

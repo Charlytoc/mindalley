@@ -18,17 +18,17 @@ export class SocketManager {
     });
   }
 
-  on(event, callback) {
+  on(event: string, callback: (data: any) => void) {
     console.log(`Registering ${event}`);
     
     this.socket.on(event, callback);
   }
 
-  off(event) {
+  off(event: string) {
     this.socket.off(event);
   }
 
-  emit(event, data) {
+  emit(event: string, data: any) {
     this.socket.emit(event, data);
   }
 
